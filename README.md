@@ -8,11 +8,15 @@ var appKey = "your app_key"
 var appMasterKey = "your app_master_key"
 umengPush = NewUmengPush(appKey, appMasterKey)
 
+// 根据业务装填参数
+param := &SendParam{}
+
 // 请求调用
 result, err := umengPush.Send(param)
 if err != nil {
 	log.Fatal(err)
 }
+log.Println(result.Data.TaskId)
 ```
 
 ##### 二、已实现接口列表
