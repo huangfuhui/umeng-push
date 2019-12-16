@@ -1,6 +1,6 @@
 package umeng_push
 
-// Android调用参数说明
+// 消息发送-Android调用参数说明
 // {
 //    "appkey":"xx",        // 必填，应用唯一标识
 //    "timestamp":"xx",    // 必填，时间戳，10位或者13位均可，时间戳有效期为10分钟
@@ -115,7 +115,7 @@ package umeng_push
 //
 // *********************************************************************************************************************
 //
-// IOS调用参数说明
+// 消息发送-IOS调用参数说明
 // {
 //  "appkey":"xx",    // 必填，应用唯一标识
 //  "timestamp":"xx", // 必填，时间戳，10位或者13位均可，时间戳有效期为10分钟
@@ -239,4 +239,40 @@ type IosPayload struct {
 		ContentAvailable int64  `json:"content-available,omitempty"`
 		Category         string `json:"category,omitempty"`
 	} `json:"aps"`
+}
+
+// 状态查询调用参数说明
+// {
+//    "appkey":"xx",       // 必填, 应用唯一标识
+//    "timestamp":"xx",    // 必填, 时间戳，10位或者13位均可，时间戳有效期为10分钟
+//    "task_id":"xx"       // 必填, 消息发送时, 从返回消息中获取的task_id
+//}
+type StatusParam struct {
+	AppKey    string `json:"appkey"`
+	Timestamp string `json:"timestamp"`
+	TaskId    string `json:"task_id"`
+}
+
+// 任务类消息取消调用参数说明
+//{
+//    "appkey":"xx",       // 必填, 应用唯一标识
+//    "timestamp":"xx",    // 必填, 时间戳，10位或者13位均可, 时间戳有效期为10分钟
+//    "task_id":"xx"       // 必填, 消息发送时, 从返回消息中获取的task_id
+//}
+type CancelParam struct {
+	AppKey    string `json:"appkey"`
+	Timestamp string `json:"timestamp"`
+	TaskId    string `json:"task_id"`
+}
+
+// 文件上传调用参数说明
+//{
+//    "appkey":"xx",       // 必填, 应用唯一标识
+//    "timestamp":"xx",    // 必填, 时间戳，10位或者13位均可, 时间戳有效期为10分钟
+//    "content":"xx"       // 必填, 文件内容, 多个device_token/alias请用回车符"\n"分隔。
+//}
+type UploadParam struct {
+	AppKey    string `json:"appkey"`
+	Timestamp string `json:"timestamp"`
+	Content   string `json:"content"`
 }

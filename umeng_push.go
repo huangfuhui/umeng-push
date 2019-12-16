@@ -28,33 +28,7 @@ const (
 	TypeCustomizedcast = "customizedcast"
 )
 
-type Result struct {
-	Ret  string            `json:"ret"`
-	Data map[string]string `json:"data"`
-}
-
-func (r *Result) IsSuccess() bool {
-	if r.Ret == RetSuccess {
-		return true
-	}
-	return false
-}
-
-func (r *Result) ErrorCode() string {
-	if code, ok := r.Data["error_code"]; ok {
-		return code
-	}
-	return ""
-}
-
-func (r *Result) ErrorMsg() string {
-	if msg, ok := r.Data["error_msg"]; ok {
-		return msg
-	}
-	return ""
-}
-
-func Post(url string, data []byte) (result Result, err error) {
+func Post(url string, data []byte) (response []byte, err error) {
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	if err != nil {
 		return
@@ -70,8 +44,7 @@ func Post(url string, data []byte) (result Result, err error) {
 		_ = rsp.Body.Close()
 	}()
 
-	body, _ := ioutil.ReadAll(rsp.Body)
-	err = json.Unmarshal(body, &result)
+	response, _ = ioutil.ReadAll(rsp.Body)
 
 	return
 }
@@ -88,7 +61,8 @@ func NewUmengPush(appKey, AppMasterKey string) *UmengPush {
 	}
 }
 
-func (u *UmengPush) Send(param *SendParam) (result Result, err error) {
+// 消息发送
+func (u *UmengPush) Send(param *SendParam) (result SendResult, err error) {
 	param.AppKey = u.AppKey
 	param.Timestamp = strconv.Itoa(int(time.Now().Unix()))
 	data, err := json.Marshal(param)
@@ -97,11 +71,101 @@ func (u *UmengPush) Send(param *SendParam) (result Result, err error) {
 	}
 
 	url := UrlSign(MessageSend, string(data), u.AppMasterKey)
-	result, err = Post(url, data)
+	response, err := Post(url, data)
 	if err != nil {
 		return
-	} else if !result.IsSuccess() {
-		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.ErrorCode(), result.ErrorMsg()))
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 任务类消息状态查询
+func (u *UmengPush) Status(taskId string) (result StatusResult, err error) {
+	param := StatusParam{
+		AppKey:    u.AppKey,
+		Timestamp: strconv.Itoa(int(time.Now().Unix())),
+		TaskId:    taskId,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(MessageStatus, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 任务类消息取消
+func (u *UmengPush) Cancel(taskId string) (result CancelResult, err error) {
+	param := CancelParam{
+		AppKey:    u.AppKey,
+		Timestamp: strconv.Itoa(int(time.Now().Unix())),
+		TaskId:    taskId,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(MessageCancel, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 文件上传
+func (u *UmengPush) Upload(content string) (result UploadResult, err error) {
+	param := UploadParam{
+		AppKey:    u.AppKey,
+		Timestamp: strconv.Itoa(int(time.Now().Unix())),
+		Content:   content,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(FileUpload, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
 	}
 	return
 }
