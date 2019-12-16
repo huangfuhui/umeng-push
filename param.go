@@ -183,7 +183,7 @@ package umeng_push
 //                                 // 测试模式只会将消息发给测试设备。测试设备需要到web上添加。
 //  "description": "xx"      // 可选，发送消息描述，建议填写。
 //}
-type Param struct {
+type SendParam struct {
 	AppKey       string      `json:"appkey"`
 	Timestamp    string      `json:"timestamp"`
 	Types        string      `json:"type"`

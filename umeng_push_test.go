@@ -47,7 +47,7 @@ func TestNewUmengPush(t *testing.T) {
 			Body:     "内容",
 		}},
 	}
-	param := &Param{
+	param := &SendParam{
 		Types:        TypeUnicast,
 		DeviceTokens: config.DeviceTokens,
 		AliasType:    "",

@@ -88,7 +88,7 @@ func NewUmengPush(appKey, AppMasterKey string) *UmengPush {
 	}
 }
 
-func (u *UmengPush) Send(param *Param) (result Result, err error) {
+func (u *UmengPush) Send(param *SendParam) (result Result, err error) {
 	param.AppKey = u.AppKey
 	param.Timestamp = strconv.Itoa(int(time.Now().Unix()))
 	data, err := json.Marshal(param)
