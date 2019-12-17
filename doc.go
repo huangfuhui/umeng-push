@@ -1,4 +1,4 @@
-// 友盟推送友盟推送服务端SDK，默认全部接口使用HTTPS协议。
+// 友盟推送友盟推送服务端SDK,默认全部接口使用HTTPS协议
 //
 // 下载安装
 //	$ go get -u github.com/huangfuhui/umeng-push

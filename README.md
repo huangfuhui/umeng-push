@@ -2,7 +2,7 @@
 
 [![GoDoc](https://godoc.org/github.com/huangfuhui/umeng-push?status.svg)](https://godoc.org/github.com/huangfuhui/umeng-push)
 
-<a href="https://developer.umeng.com/docs/66632/detail/68343">友盟推送</a>友盟推送服务端SDK，默认全部接口使用HTTPS协议。
+<a href="https://developer.umeng.com/docs/66632/detail/68343">友盟推送</a>友盟推送服务端SDK,默认全部接口使用HTTPS协议
 
 #### 一、快速开始
 
