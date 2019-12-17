@@ -85,3 +85,20 @@ func (r *UploadResult) IsSuccess() bool {
 	}
 	return false
 }
+
+// 管理用户自定义标签-调用返回
+type TagResult struct {
+	Ret  string `json:"ret"` // SUCCESS/FAIL
+	Data struct {
+		// 当"ret"为"FAIL"时,包含如下参数:
+		ErrorCode string `json:"error_code"`
+		ErrorMsg  string `json:"error_msg"`
+	} `json:"data"`
+}
+
+func (r *TagResult) IsSuccess() bool {
+	if r.Ret == RetSuccess {
+		return true
+	}
+	return false
+}

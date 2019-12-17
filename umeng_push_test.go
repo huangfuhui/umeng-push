@@ -56,10 +56,11 @@ func TestNewUmengPush(t *testing.T) {
 		Filter:       "",
 		Payload:      payload,
 		Policy: struct {
-			StartTime  string `json:"start_time,omitempty"`
-			ExpireTime string `json:"expire_time,omitempty"`
-			MaxSendNum int64  `json:"max_send_num,omitempty"`
-			OutBizNo   string `json:"out_biz_no,omitempty"`
+			StartTime      string `json:"start_time,omitempty"`
+			ExpireTime     string `json:"expire_time,omitempty"`
+			MaxSendNum     int64  `json:"max_send_num,omitempty"`
+			OutBizNo       string `json:"out_biz_no,omitempty"`
+			ApnsCollapseId string `json:"apns_collapse_id,omitempty"`
 		}{},
 		ProductionMode: "true",
 		Description:    "测试推送",
@@ -69,6 +70,14 @@ func TestNewUmengPush(t *testing.T) {
 
 	umengPush = NewUmengPush(config.AppKey, config.AppMasterKey)
 	result, err := umengPush.Send(param)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(result.Data)
+}
+
+func TestUmengPush_TagList(t *testing.T) {
+	result, err := umengPush.TagList(config.DeviceTokens)
 	if err != nil {
 		log.Fatal(err)
 	}

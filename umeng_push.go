@@ -16,6 +16,11 @@ const (
 	MessageStatus = "https://msgapi.umeng.com/api/status"
 	MessageCancel = "https://msgapi.umeng.com/api/cancel"
 	FileUpload    = "https://msgapi.umeng.com/upload"
+	TagAdd        = "http://msg.umeng.com/api/tag/add"
+	TagList       = "http://msg.umeng.com/api/tag/list"
+	TagSet        = "http://msg.umeng.com/api/tag/set"
+	TagDelete     = "http://msg.umeng.com/api/tag/delete"
+	TagClear      = "http://msg.umeng.com/api/tag/clear"
 
 	RetSuccess = "SUCCESS"
 	RetFail    = "FAIL"
@@ -155,6 +160,149 @@ func (u *UmengPush) Upload(content string) (result UploadResult, err error) {
 	}
 
 	url := UrlSign(FileUpload, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 给设备打标签
+func (u *UmengPush) TagAdd(deviceToken, tag string) (result TagResult, err error) {
+	param := TagAddParam{
+		AppKey:       u.AppKey,
+		Timestamp:    strconv.Itoa(int(time.Now().Unix())),
+		DeviceTokens: deviceToken,
+		Tag:          tag,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(TagAdd, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 查询设备标签列表
+func (u *UmengPush) TagList(deviceToken string) (result TagResult, err error) {
+	param := TagListParam{
+		AppKey:       u.AppKey,
+		Timestamp:    strconv.Itoa(int(time.Now().Unix())),
+		DeviceTokens: deviceToken,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(TagList, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 设置设备标签
+func (u *UmengPush) TagSet(deviceToken, tag string) (result TagResult, err error) {
+	param := TagSetParam{
+		AppKey:       u.AppKey,
+		Timestamp:    strconv.Itoa(int(time.Now().Unix())),
+		DeviceTokens: deviceToken,
+		Tag:          tag,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(TagSet, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 删除设备标签
+func (u *UmengPush) TagDelete(deviceToken, tag string) (result TagResult, err error) {
+	param := TagDeleteParam{
+		AppKey:       u.AppKey,
+		Timestamp:    strconv.Itoa(int(time.Now().Unix())),
+		DeviceTokens: deviceToken,
+		Tag:          tag,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(TagDelete, string(data), u.AppMasterKey)
+	response, err := Post(url, data)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+
+	if !result.IsSuccess() {
+		err = errors.New(fmt.Sprintf("error_code=%s;error_msg=%s", result.Data.ErrorCode, result.Data.ErrorMsg))
+	}
+	return
+}
+
+// 清除设备标签
+func (u *UmengPush) TagClear(deviceToken string) (result TagResult, err error) {
+	param := TagClearParam{
+		AppKey:       u.AppKey,
+		Timestamp:    strconv.Itoa(int(time.Now().Unix())),
+		DeviceTokens: deviceToken,
+	}
+	data, err := json.Marshal(param)
+	if err != nil {
+		return
+	}
+
+	url := UrlSign(TagClear, string(data), u.AppMasterKey)
 	response, err := Post(url, data)
 	if err != nil {
 		return

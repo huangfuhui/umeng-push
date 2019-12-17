@@ -185,3 +185,41 @@ type UploadParam struct {
 	Timestamp string `json:"timestamp"` // 必填, 时间戳,10位或者13位均可,时间戳有效期为10分钟
 	Content   string `json:"content"`   // 必填, 文件内容, 多个device_token/alias请用回车符"\n"分隔
 }
+
+// 给设备打标签调用参数
+type TagAddParam struct {
+	AppKey       string `json:"appkey"`                  // 必填, 应用唯一标识
+	Timestamp    string `json:"timestamp"`               // 必填, 时间戳,10位或者13位均可,时间戳有效期为10分钟
+	DeviceTokens string `json:"device_tokens,omitempty"` // 单个device_token
+	Tag          string `json:"tag"`                     // 要添加的标签,如果有多个,以英文逗号分隔
+}
+
+// 查询设备标签列表调用参数
+type TagListParam struct {
+	AppKey       string `json:"appkey"`                  // 必填, 应用唯一标识
+	Timestamp    string `json:"timestamp"`               // 必填, 时间戳,10位或者13位均可,时间戳有效期为10分钟
+	DeviceTokens string `json:"device_tokens,omitempty"` // 只支持一个device_token
+}
+
+// 设置设备标签调用参数
+type TagSetParam struct {
+	AppKey       string `json:"appkey"`                  // 必填, 应用唯一标识
+	Timestamp    string `json:"timestamp"`               // 必填, 时间戳,10位或者13位均可,时间戳有效期为10分钟
+	DeviceTokens string `json:"device_tokens,omitempty"` // 单个device_token
+	Tag          string `json:"tag"`                     // 要添加的标签,如果有多个,以英文逗号分隔
+}
+
+// 删除设备标签调用参数
+type TagDeleteParam struct {
+	AppKey       string `json:"appkey"`                  // 必填, 应用唯一标识
+	Timestamp    string `json:"timestamp"`               // 必填, 时间戳,10位或者13位均可,时间戳有效期为10分钟
+	DeviceTokens string `json:"device_tokens,omitempty"` // 只支持一个device_token
+	Tag          string `json:"tag"`
+}
+
+// 清除设备标签调用参数
+type TagClearParam struct {
+	AppKey       string `json:"appkey"`                  // 必填, 应用唯一标识
+	Timestamp    string `json:"timestamp"`               // 必填, 时间戳,10位或者13位均可,时间戳有效期为10分钟
+	DeviceTokens string `json:"device_tokens,omitempty"` // 只支持一个device_token
+}
