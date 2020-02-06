@@ -137,12 +137,12 @@ type AndroidPayload struct {
 		// 当display_type=notification且
 		// after_open=go_custom时,必填
 		Custom interface{} `json:"custom,omitempty"`
-
-		// 可选,JSON格式,用户自定义key-value,只对"通知"
-		// (display_type=notification)生效
-		// 可以配合通知到达后,打开App/URL/Activity使用
-		Extra map[string]string `json:"extra,omitempty"`
 	} `json:"body"`
+
+	// 可选,JSON格式,用户自定义key-value,只对"通知"
+	// (display_type=notification)生效
+	// 可以配合通知到达后,打开App/URL/Activity使用
+	Extra map[string]string `json:"extra,omitempty"`
 }
 
 type IosPayload struct {
