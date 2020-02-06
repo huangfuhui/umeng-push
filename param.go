@@ -136,7 +136,7 @@ type AndroidPayload struct {
 		// 当display_type=message时, 必填
 		// 当display_type=notification且
 		// after_open=go_custom时,必填
-		Custom string `json:"custom,omitempty"`
+		Custom interface{} `json:"custom,omitempty"`
 
 		// 可选,JSON格式,用户自定义key-value,只对"通知"
 		// (display_type=notification)生效
