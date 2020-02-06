@@ -142,7 +142,7 @@ type AndroidPayload struct {
 	// 可选,JSON格式,用户自定义key-value,只对"通知"
 	// (display_type=notification)生效
 	// 可以配合通知到达后,打开App/URL/Activity使用
-	Extra map[string]string `json:"extra,omitempty"`
+	Extra interface{} `json:"extra,omitempty"`
 }
 
 type IosPayload struct {
