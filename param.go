@@ -1,5 +1,9 @@
 package umeng_push
 
+import (
+	"encoding/json"
+)
+
 // 消息发送调用参数
 type SendParam struct {
 	AppKey    string `json:"appkey"`    // 必填,应用唯一标识
@@ -150,11 +154,18 @@ type AndroidPayloadBody struct {
 }
 
 type IosPayload struct {
-	Aps IosPayloadAps `json:"aps"` // 必填,严格按照APNs定义来填写
+	Aps IosPayloadAps // 必填,严格按照APNs定义来填写
 
-	// "key1":"value1",       // 可选,用户自定义内容, "d","p"为友盟保留字段, key不可以是"d","p"
-	// "key2":"value2",
-	// ...
+	Extra map[string]interface{} //可选,用户自定义内容, "d","p"为友盟保留字段, key不可以是"d","p"
+}
+
+// 兼容友盟憨憨接口
+func (payload IosPayload) MarshalJSON() ([]byte, error) {
+	if payload.Extra == nil {
+		payload.Extra = make(map[string]interface{})
+	}
+	payload.Extra["aps"] = payload.Aps
+	return json.Marshal(payload.Extra)
 }
 
 type IosPayloadAps struct {
