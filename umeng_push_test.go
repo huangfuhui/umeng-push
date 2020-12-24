@@ -46,7 +46,7 @@ func TestNewUmengPush(t *testing.T) {
 		Policy:         Policy{},
 		ProductionMode: true,
 		Description:    "测试推送",
-		Mipush:         "",
+		Mipush:         true,
 		MiActivity:     "",
 	}
 

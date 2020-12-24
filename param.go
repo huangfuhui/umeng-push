@@ -51,8 +51,8 @@ type SendParam struct {
 	ProductionMode bool   `json:"production_mode,omitempty,string"`
 	Description    string `json:"description,omitempty"` // 可选,发送消息描述,建议填写
 
-	Mipush     string `json:"mipush,omitempty"`      // 可选,默认为false,当为true时,表示MIUI、EMUI、Flyme系统设备离线转为系统下发
-	MiActivity string `json:"mi_activity,omitempty"` // 可选,mipush值为true时生效,表示走系统通道时打开指定页面acitivity的完整包路径
+	Mipush     bool   `json:"mipush,omitempty,string"` // 可选,默认为false,当为true时,表示MIUI、EMUI、Flyme系统设备离线转为系统下发
+	MiActivity string `json:"mi_activity,omitempty"`   // 可选,mipush值为true时生效,表示走系统通道时打开指定页面acitivity的完整包路径
 
 	ReceiptUrl  string `json:"receipt_url,omitempty"`  // 开发者接受数据的地址,最大长度256字节
 	ReceiptType string `json:"receipt_type,omitempty"` // 回执数据类型,1:送达回执;2:点击回执;3:送达和点击回执,默认为3
