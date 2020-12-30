@@ -27,44 +27,26 @@ func TestMain(m *testing.M) {
 
 func TestNewUmengPush(t *testing.T) {
 	payload := &IosPayload{
-		Aps: struct {
-			Alert struct {
-				Title    string `json:"title,omitempty"`
-				Subtitle string `json:"subtitle,omitempty"`
-				Body     string `json:"body,omitempty"`
-			} `json:"alert,omitempty"`
-			Badge            int64  `json:"badge,omitempty"`
-			Sound            string `json:"sound,omitempty"`
-			ContentAvailable int64  `json:"content-available,omitempty"`
-			Category         string `json:"category,omitempty"`
-		}{Alert: struct {
-			Title    string `json:"title,omitempty"`
-			Subtitle string `json:"subtitle,omitempty"`
-			Body     string `json:"body,omitempty"`
-		}{
-			Title:    "标题",
-			Subtitle: "子标题",
-			Body:     "内容",
-		}},
+		Aps: IosPayloadAps{
+			Alert: IosPayloadApsAlert{
+				Title:    "标题",
+				Subtitle: "子标题",
+				Body:     "内容",
+			},
+		},
 	}
 	param := &SendParam{
-		Types:        TypeUnicast,
-		DeviceTokens: config.DeviceTokens,
-		AliasType:    "",
-		Alias:        "",
-		FileId:       "",
-		Filter:       "",
-		Payload:      payload,
-		Policy: struct {
-			StartTime      string `json:"start_time,omitempty"`
-			ExpireTime     string `json:"expire_time,omitempty"`
-			MaxSendNum     int64  `json:"max_send_num,omitempty"`
-			OutBizNo       string `json:"out_biz_no,omitempty"`
-			ApnsCollapseId string `json:"apns_collapse_id,omitempty"`
-		}{},
-		ProductionMode: "true",
+		Types:          TypeUnicast,
+		DeviceTokens:   config.DeviceTokens,
+		AliasType:      "",
+		Alias:          "",
+		FileId:         "",
+		Filter:         "",
+		Payload:        payload,
+		Policy:         Policy{},
+		ProductionMode: true,
 		Description:    "测试推送",
-		Mipush:         "",
+		Mipush:         true,
 		MiActivity:     "",
 	}
 
