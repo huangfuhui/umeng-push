@@ -48,7 +48,7 @@ type SendParam struct {
 	// 可选,正式/测试模式,默认为true
 	// 测试模式只对“广播”、“组播”类消息生效,其他类型的消息任务（如“文件播”）不会走测试模式
 	// 测试模式只会将消息发给测试设备,测试设备需要到web上添加
-	ProductionMode bool   `json:"production_mode,omitempty,string"`
+	ProductionMode bool   `json:"production_mode,string"`
 	Description    string `json:"description,omitempty"` // 可选,发送消息描述,建议填写
 
 	Mipush     bool   `json:"mipush,omitempty,string"` // 可选,默认为false,当为true时,表示MIUI、EMUI、Flyme系统设备离线转为系统下发
